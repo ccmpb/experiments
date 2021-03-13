@@ -18,4 +18,4 @@ export:
 	gpg --armor --export $(UID) 
 
 show:
-	gpg --list-keys
+	gpg --fingerprint $(UID)
