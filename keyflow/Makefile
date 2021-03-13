@@ -1,10 +1,19 @@
 ALGO=rsa4096
-ID="Colin Campbell (keyflow) <colin@elusivelabs.com"
+UID="Colin Campbell (keyflow) <colin@elusivelabs.com"
 EXPIRE=1y
 
-new:
-	@echo "Generating new gpg key ."
-	gpg --quick-generate-key $(ID) $(ALGO) default $(EXPIRE) 
+FPR = $(shell gpg -k --with-colons $(UID) | grep "^fpr" | head -n1 | cut -d: -f10)
 
-show:
+new:
+	@echo "Generating new gpg key."
+	gpg --quick-generate-key $(UID) $(ALGO) default $(EXPIRE) 
+
+add:
+	@echo "Generating new gpg sub key on $(FPR)"
+	gpg --quick-add-key $(FPR) $(ALGO)
+	# gpg --quick-add-key $(KEYID) $(ALGORITHM_SUB) encr $(EXPIRE)
+export:
+	gpg --armor --export $(UID) 
+
+show:
 	gpg --list-keys
