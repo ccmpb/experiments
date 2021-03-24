@@ -7,7 +7,7 @@ def leafsid():
     return "10"
 
 def seasonend():
-    return "2021-05-21"
+    return "2021-07-21"
 
 def nextgame(num=1):
     url = "https://statsapi.web.nhl.com/api/v1/schedule?teamId={}&startDate={}&endDate={}"
@@ -21,10 +21,7 @@ def nextgame(num=1):
 
     return nextgame
 
-def main():
-
-    ng = nextgame()
-    for game in nextgame(1):
+def formatgame(game):
         teams =  game["teams"]
         home = teams["home"]
         away = teams["away"]
@@ -32,7 +29,7 @@ def main():
 
         gameinfo = "{} ({}-{}-{}) @ {} ({}-{}-{}) {}"
     
-        print(gameinfo.format(
+        return gameinfo.format(
             away["team"]["name"], 
             away["leagueRecord"]["wins"],
             away["leagueRecord"]["losses"],
@@ -42,7 +39,13 @@ def main():
             home["leagueRecord"]["losses"],
             home["leagueRecord"]["ot"],
             gamedate,
-        ))
+        )
+
+def main():
+
+    ng = nextgame()
+    for game in nextgame(1):
+        print(formatgame(game))
 
 if __name__ == "__main__":
     main()
