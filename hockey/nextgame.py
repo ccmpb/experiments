@@ -21,6 +21,25 @@ def nextgame(num=1):
 
     return nextgame
 
+def standings():
+    url = "https://statsapi.web.nhl.com/api/v1/standings/wildCardWithLeaders"
+    resp = requests.get(url.format(leafsid()))
+    data = resp.json()
+    return data
+
+def formatstandings(standings):
+    for record in standings["records"]:
+        print(record["division"]["name"]) 
+        for team in record["teamRecords"]:
+            t = "{} ({}-{}-{})"
+            print(t.format(
+                team["team"]["name"], 
+                team["leagueRecord"]["wins"],
+                team["leagueRecord"]["losses"],
+                team["leagueRecord"]["ot"],
+            ))
+        print()
+
 def formatgame(game):
         teams =  game["teams"]
         home = teams["home"]
@@ -44,8 +63,10 @@ def formatgame(game):
 def main():
 
     ng = nextgame()
-    for game in nextgame(1):
-        print(formatgame(game))
+    # for game in nextgame(5):
+        # print(formatgame(game))
+
+    print(formatstandings(standings()))
 
 if __name__ == "__main__":
     main()
