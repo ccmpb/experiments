@@ -31,14 +31,17 @@ def formatstandings(standings):
     for record in standings["records"]:
         print(record["division"]["name"]) 
         for team in record["teamRecords"]:
-            t = "{} ({}-{}-{})"
-            print(t.format(
-                team["team"]["name"], 
-                team["leagueRecord"]["wins"],
-                team["leagueRecord"]["losses"],
-                team["leagueRecord"]["ot"],
-            ))
+            print(formatteam(team))
         print()
+
+def formatteam(team):
+    t = "{} ({}-{}-{})"
+    return t.format(
+        team["team"]["name"],
+        team["leagueRecord"]["wins"],
+        team["leagueRecord"]["losses"],
+        team["leagueRecord"]["ot"],
+    )
 
 def formatgame(game):
         teams =  game["teams"]
@@ -46,25 +49,19 @@ def formatgame(game):
         away = teams["away"]
         gamedate = game["gameDate"]
 
-        gameinfo = "{} ({}-{}-{}) @ {} ({}-{}-{}) {}"
+        gameinfo = "{} @ {} {}"
     
         return gameinfo.format(
-            away["team"]["name"], 
-            away["leagueRecord"]["wins"],
-            away["leagueRecord"]["losses"],
-            away["leagueRecord"]["ot"],
-            home["team"]["name"],
-            home["leagueRecord"]["wins"],
-            home["leagueRecord"]["losses"],
-            home["leagueRecord"]["ot"],
+            formatteam(away),
+            formatteam(home),
             gamedate,
         )
 
 def main():
 
     ng = nextgame()
-    # for game in nextgame(5):
-        # print(formatgame(game))
+    for game in nextgame(5):
+        print(formatgame(game))
 
     print(formatstandings(standings()))
 
