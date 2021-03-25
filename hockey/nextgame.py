@@ -46,10 +46,11 @@ class Schedule(NHLApi):
             game = date["games"][0]
             matchup = "{} @ {}" 
             away = game["teams"]["away"]
+            home = game["teams"]["home"]
 
             table.add_row(
                 date["date"], 
-                # matchup.format(formatteam(away))
+                matchup.format(formatteam(away), formatteam(home))
             )
 
         console = Console()
