@@ -1,4 +1,5 @@
 import requests
+import datetime 
 from datetime import date
 import json
 from pprint import pprint
@@ -38,10 +39,8 @@ class Schedule(NHLApi):
         self.fetch()
 
     def gamedate(self, game):
-        if game["status"]["abstractGameState"] == "Live": 
-            return game["gameDate"] + " * "
-        
-        return game["gameDate"] 
+        gametime = datetime.datetime.strptime(game["gameDate"], "%Y-%m-%dT%XZ")
+        return gametime.strftime("%x %X")
 
     def show(self):
         table = Table(title="Schedule")
@@ -49,20 +48,35 @@ class Schedule(NHLApi):
         table.add_column("Matchup")
 
         for date in self.data["dates"]:
-            game = date["games"][0]
-            pprint(game)
+            game = Game(date["games"][0])
             matchup = "{} @ {}" 
-            away = game["teams"]["away"]
-            home = game["teams"]["home"]
+            away = game.awayteam()
+            home = game.hometeam()
             
-            gd = self.gamedate(game)
             table.add_row(
-                self.gamedate(game),
+                game.date(),
                 matchup.format(formatteam(away), formatteam(home))
             )
 
         console = Console()
         console.print(table)
+
+class Game:
+    def __init__(self, data):
+        self.data = data
+        pass
+    
+    def date(self):
+        gametime = datetime.datetime.strptime(self.data["gameDate"], "%Y-%m-%dT%XZ")
+        return gametime.strftime("%x %X")
+    
+    def hometeam(self):
+        return self.data["teams"]["home"]
+
+    def awayteam(self):
+        return self.data["teams"]["away"]
+
+
 
 def leafsid():
     return "10"
