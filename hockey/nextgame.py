@@ -37,6 +37,12 @@ class Schedule(NHLApi):
 
         self.fetch()
 
+    def gamedate(self, game):
+        if game["status"]["abstractGameState"] == "Live": 
+            return game["gameDate"] + " * "
+        
+        return game["gameDate"] 
+
     def show(self):
         table = Table(title="Schedule")
         table.add_column("Date")
@@ -44,12 +50,14 @@ class Schedule(NHLApi):
 
         for date in self.data["dates"]:
             game = date["games"][0]
+            pprint(game)
             matchup = "{} @ {}" 
             away = game["teams"]["away"]
             home = game["teams"]["home"]
-
+            
+            gd = self.gamedate(game)
             table.add_row(
-                date["date"], 
+                self.gamedate(game),
                 matchup.format(formatteam(away), formatteam(home))
             )
 
