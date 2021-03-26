@@ -16,8 +16,6 @@ class NHLApi:
         pprint(self.params)
     
     def fetch(self):
-        # pprint(self.url)
-        # pprint(self.params)
         resp = requests.get(self.url.format(*self.params))
         self.data = resp.json()
 
@@ -37,10 +35,6 @@ class Schedule(NHLApi):
         super().__init__(url, params)
 
         self.fetch()
-
-    def gamedate(self, game):
-        gametime = datetime.datetime.strptime(game["gameDate"], "%Y-%m-%dT%XZ")
-        return gametime.strftime("%x %X")
 
     def show(self):
         table = Table(title="Schedule")
