@@ -55,7 +55,7 @@ class Schedule(NHLApi):
             
             table.add_row(
                 game.date(),
-                matchup.format(formatteam(away), formatteam(home))
+                matchup.format(away, home)
             )
 
         console = Console()
@@ -71,12 +71,26 @@ class Game:
         return gametime.strftime("%x %X")
     
     def hometeam(self):
-        return self.data["teams"]["home"]
+        team = Team(self.data["teams"]["home"])
+        return team
 
     def awayteam(self):
-        return self.data["teams"]["away"]
+        team = Team(self.data["teams"]["away"])
+        return team
 
 
+class Team:
+    def __init__(self, data):
+        self.data = data
+
+    def __str__(self):
+        team = "{} ({}-{}-{})"
+        return team.format(
+            self.data["team"]["name"],
+            self.data["leagueRecord"]["wins"],
+            self.data["leagueRecord"]["losses"],
+            self.data["leagueRecord"]["ot"],
+        )
 
 def leafsid():
     return "10"
