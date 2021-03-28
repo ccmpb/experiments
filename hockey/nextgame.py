@@ -23,7 +23,7 @@ class NHLApi:
 class Schedule(NHLApi):
     def __init__(self, teamid=None, start=None, end=None):
         if not teamid:
-            teamid = leafsid()
+            teamid = defaultteam()
         if not start:
             start = date.today()
         if not end:
@@ -86,7 +86,23 @@ class Team:
             self.data["leagueRecord"]["ot"],
         )
 
-def leafsid():
+class TeamStats(NHLApi):
+    def __init__(self, teamid=None):
+        if not teamid:
+            teamid = defaultteam()
+
+        url = "https://statsapi.web.nhl.com/api/v1/teams/{}/stats"
+        params = [ teamid ]
+
+        super().__init__(url, params)
+
+        self.fetch()
+    
+    def show(self):
+        pprint(self.data)
+
+
+def defaultteam():
     return "10"
 
 def seasonend():
@@ -96,7 +112,7 @@ def nextgame(num=1):
     url = "https://statsapi.web.nhl.com/api/v1/schedule?teamId={}&startDate={}&endDate={}"
     nextgame = [] 
 
-    resp = requests.get(url.format(leafsid(), date.today(), seasonend()))
+    resp = requests.get(url.format(defaultteam(), date.today(), seasonend()))
     data = resp.json()
 
     for i in range(num):
@@ -106,7 +122,7 @@ def nextgame(num=1):
 
 def standings():
     url = "https://statsapi.web.nhl.com/api/v1/standings/wildCardWithLeaders"
-    resp = requests.get(url.format(leafsid()))
+    resp = requests.get(url.format(defaultteam()))
     data = resp.json()
     return data
 
@@ -141,9 +157,12 @@ def formatgame(game):
     )
 
 def main():
-    # printschedule(schedule(leafsid()))
+    # printschedule(schedule(defaultteam()))
     sched = Schedule()
     sched.show()
+
+    ts = TeamStats()
+    ts.show()
     
     # ng = nextgame()
     # for game in nextgame(5):
