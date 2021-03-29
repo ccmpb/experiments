@@ -49,7 +49,7 @@ class Schedule(NHLApi):
             
             table.add_row(
                 game.date(),
-                matchup.format(away, home)
+            matchup.format(away, home)
             )
 
         console = Console()
@@ -120,6 +120,44 @@ def nextgame(num=1):
 
     return nextgame
 
+class Standings(NHLApi):
+    def __init__(self, teamid=None):
+        if not teamid:
+            teamid = defaultteam()
+
+        url = "https://statsapi.web.nhl.com/api/v1/standings/wildCardWithLeaders"
+        params = [ teamid ]
+
+        super().__init__(url, params)
+
+        self.fetch()
+
+    def show(self):
+
+        for record in self.data["records"]:
+            table = Table(title=record["division"]["name"])
+            table.add_column("Team")
+            table.add_column("pts")
+            table.add_column("gp")
+            table.add_column("w")
+            table.add_column("l")
+            table.add_column("ot")
+            table.add_column("diff")
+
+            for team in record["teamRecords"]:
+                table.add_row(
+                    team["team"]["name"],
+                    str(team["points"]),
+                    str(team["gamesPlayed"]),
+                    str(team["leagueRecord"]["wins"]),
+                    str(team["leagueRecord"]["losses"]),
+                    str(team["leagueRecord"]["ot"]),
+                    str(team["goalsScored"] - team["goalsAgainst"])
+                )
+                
+            console = Console()
+            console.print(table)
+    
 def standings():
     url = "https://statsapi.web.nhl.com/api/v1/standings/wildCardWithLeaders"
     resp = requests.get(url.format(defaultteam()))
@@ -161,8 +199,11 @@ def main():
     sched = Schedule()
     sched.show()
 
-    ts = TeamStats()
-    ts.show()
+    # ts = TeamStats()
+    # ts.show()
+
+    standings = Standings()
+    standings.show()
     
     # ng = nextgame()
     # for game in nextgame(5):
