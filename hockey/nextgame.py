@@ -97,6 +97,9 @@ class NextGame(NHLApi):
         super().__init__(url, params)
         self.fetch()
 
+    def gameid(self):
+        return self.data["teams"][0]["nextGameSchedule"]["dates"][0]["games"][0]["gamePk"]
+
 class TeamStats(NHLApi):
     def __init__(self, teamid=None):
         if not teamid:
@@ -106,12 +109,17 @@ class TeamStats(NHLApi):
         params = [ teamid ]
 
         super().__init__(url, params)
-
         self.fetch()
-    
-    def show(self):
-        pprint(self.data)
 
+
+class Game(NHLApi):
+    def __init__(self, gameid=None):
+
+        url = "https://statsapi.web.nhl.com/api/v1/game/ID/boxscore"
+        params = [ gameid ]
+
+        super().__init__(url, params)
+        self.fetch()
 
 def defaultteam():
     return "10"
@@ -216,6 +224,7 @@ def main():
     # ts.show()
     ng = NextGame(teamid=10)
     print(ng.json())
+    print(ng.gameid())
 
     # standings = Standings()
     # standings.show()
