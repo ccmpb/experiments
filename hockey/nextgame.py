@@ -11,9 +11,6 @@ class NHLApi:
         self.url = url
         self.params = params
         self.data = None 
-
-        pprint(self.url)
-        pprint(self.params)
     
     def fetch(self):
         resp = requests.get(self.url.format(*self.params))
@@ -232,8 +229,8 @@ def main():
     # team = Team()
     # team.show()
     leafs = Team(10)
-    leafs.show()
-    pprint(leafs.json())
+    # leafs.show()
+    print(leafs.json())
 
     # bruins = Team(6)
     # bruins.show()
