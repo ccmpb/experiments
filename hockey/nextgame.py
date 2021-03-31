@@ -19,6 +19,12 @@ class NHLApi:
         resp = requests.get(self.url.format(*self.params))
         self.data = resp.json()
 
+    def search(self):
+        pass
+
+    def json(self):
+        data = json.dumps(self.data)
+        return data
 
 class Schedule(NHLApi):
     def __init__(self, teamid=None, start=None, end=None):
@@ -33,7 +39,6 @@ class Schedule(NHLApi):
         params = [ teamid, start, end]
 
         super().__init__(url, params)
-
         self.fetch()
 
     def show(self):
@@ -49,7 +54,7 @@ class Schedule(NHLApi):
             
             table.add_row(
                 game.date(),
-            matchup.format(away, home)
+                matchup.format(away, home)
             )
 
         console = Console()
@@ -65,26 +70,46 @@ class Game:
         return gametime.strftime("%x %X")
     
     def hometeam(self):
-        team = Team(self.data["teams"]["home"])
+        team = Team(self.data["teams"]["home"]["id"])
         return team
 
     def awayteam(self):
-        team = Team(self.data["teams"]["away"])
+        team = Team(self.data["teams"]["away"]["id"])
         return team
 
 
-class Team:
-    def __init__(self, data):
-        self.data = data
+class Team(NHLApi):
+    def __init__(self, teamid=None):
+        if not teamid:
+            teamid = defaultteam()
 
-    def __str__(self):
-        team = "{} ({}-{}-{})"
-        return team.format(
-            self.data["team"]["name"],
-            self.data["leagueRecord"]["wins"],
-            self.data["leagueRecord"]["losses"],
-            self.data["leagueRecord"]["ot"],
-        )
+        url = "https://statsapi.web.nhl.com/api/v1/teams/{}"
+        params = [ teamid ]
+
+        super().__init__(url, params)
+        self.fetch()
+
+    # def __str__(self):
+    #     team = "{} ({}-{}-{})"
+    #     return team.format(
+    #         self.data["team"]["name"],
+    #         self.data["leagueRecord"]["wins"],
+    #         self.data["leagueRecord"]["losses"],
+    #         self.data["leagueRecord"]["ot"],
+    #     )
+
+    def nextgame(self):
+        url = "https://statsapi.web.nhl.com/api/v1/teams/{}?expand=team.schedule.next"
+
+        resp = requests.get(self.url.format(self.data["id"]))
+        self.nextgame = resp.json()
+
+
+        return self.data["nextGameSchedule"]["dates"][0]
+
+
+    def show(self):
+        pprint(self.data)
 
 class TeamStats(NHLApi):
     def __init__(self, teamid=None):
@@ -196,14 +221,23 @@ def formatgame(game):
 
 def main():
     # printschedule(schedule(defaultteam()))
-    sched = Schedule()
-    sched.show()
+    # sched = Schedule()
+    # sched.show()
 
     # ts = TeamStats()
     # ts.show()
 
-    standings = Standings()
-    standings.show()
+    # standings = Standings()
+    # standings.show()
+    # team = Team()
+    # team.show()
+    leafs = Team(10)
+    leafs.show()
+    pprint(leafs.json())
+
+    # bruins = Team(6)
+    # bruins.show()
+
     
     # ng = nextgame()
     # for game in nextgame(5):
