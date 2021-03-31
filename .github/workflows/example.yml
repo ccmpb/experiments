@@ -2,12 +2,15 @@ name: "examples"
 on: [push]
 
 jobs:
-  test_basic_success:
+  build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: ./
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: Test Basic Success
-          conclusion: success
+	steps:
+      - uses: actions/checkout@v2
+      - run: echo "hello world"
+
+          # date > generated.txt
+          # git config user.name github-actions
+          # git config user.email github-actions@github.com
+          # git add .
+          # git commit -m "generated"
+          # git push
