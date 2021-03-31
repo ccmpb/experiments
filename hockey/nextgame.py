@@ -115,7 +115,7 @@ class TeamStats(NHLApi):
 class Game(NHLApi):
     def __init__(self, gameid=None):
 
-        url = "https://statsapi.web.nhl.com/api/v1/game/ID/boxscore"
+        url = "https://statsapi.web.nhl.com/api/v1/game/{}/boxscore"
         params = [ gameid ]
 
         super().__init__(url, params)
@@ -223,9 +223,11 @@ def main():
     # print(ts.json())
     # ts.show()
     ng = NextGame(teamid=10)
-    print(ng.json())
-    print(ng.gameid())
+    # print(ng.json())
+    # print(ng.gameid())
 
+    game = Game(ng.gameid())
+    print(game.json())
     # standings = Standings()
     # standings.show()
     # team = Team()
