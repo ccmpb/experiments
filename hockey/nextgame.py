@@ -16,8 +16,15 @@ class NHLApi:
         resp = requests.get(self.url.format(*self.params))
         self.data = resp.json()
 
-    def search(self):
-        pass
+    def search(self, s):
+        if s in self.data:
+            return self.data[s]
+
+        for key, val in self.data:
+            if type(val) is dict:
+                yield(key, val)
+                yield from (self.search(val, s))
+            pass
 
     def json(self):
         data = json.dumps(self.data)
@@ -227,7 +234,10 @@ def main():
     # print(ng.gameid())
 
     game = Game(ng.gameid())
-    print(game.json())
+    print(game.data.keys())
+    
+    print(game.search("home"))
+    # print(game.json())
     # standings = Standings()
     # standings.show()
     # team = Team()
