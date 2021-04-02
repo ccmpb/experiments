@@ -6,9 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: say hello
       - run: echo "hello world"
-  test:
-      - uses: actions/checkout@v2
+      - name: run tests
       - run: echo "running tests...."
 
         # date > generated.txt
