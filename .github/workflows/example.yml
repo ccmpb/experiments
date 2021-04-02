@@ -31,6 +31,13 @@ jobs:
               --url "https://api.github.com/repos/ccmpb/experiments/actions/runs/710869213/logs" \
               --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
               --fail > runlog.zip 
+
+            curl \
+              -H "Accept: application/vnd.github.v3+json" \
+              --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+              --url "https://api.github.com/search/pulls?q=$GITHUB_SHA is:merged" \
+              --fail
+
             # -H "Accept: application/vnd.github.v3+json" \
             # https://api.github.com/repos/octocat/hello-world/pulls/42/reviews
 
