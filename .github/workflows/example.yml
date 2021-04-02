@@ -10,6 +10,11 @@ jobs:
         run: echo "hello world"
       - name: run tests
         run: echo "running tests...."
+	  - name: compliance 
+		uses: actions/upload-artifact@v1.0.0
+		with:
+		  name: webapp
+		  path: logs_4.zip 
 
         # date > generated.txt
         # git config user.name github-actions
