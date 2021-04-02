@@ -24,7 +24,7 @@ jobs:
             # --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
             # --fail
 
-            curl \
+            curl -L \
               -H "Accept: application/vnd.github.v3+json" \
               https://api.github.com/repos/ccmpb/experiments/actions/runs/710817111/logs \
               --header 'authorization: Bearer ${{ secrets.ACTION_PAT }}' \
