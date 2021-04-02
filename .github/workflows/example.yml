@@ -26,7 +26,7 @@ jobs:
 
             curl -L \
               -H "Accept: application/vnd.github.v3+json" \
-              https://api.github.com/repos/ccmpb/experiments/actions/runs/${{ GITHUB_RUN_ID }}/logs \
+              https://api.github.com/repos/ccmpb/experiments/actions/runs/${GITHUB_RUN_ID}/logs \
               --header 'authorization: Bearer ${{ secrets.ACTION_PAT }}' \
               --fail > runlog.zip 
             # -H "Accept: application/vnd.github.v3+json" \
