@@ -7,9 +7,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: say hello
-      - run: echo "hello world"
+        run: echo "hello world"
       - name: run tests
-      - run: echo "running tests...."
+        run: echo "running tests...."
 
         # date > generated.txt
         # git config user.name github-actions
