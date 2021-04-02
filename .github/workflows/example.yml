@@ -15,8 +15,8 @@ jobs:
 
       - name: info
         run: |
-          # echo $GITHUB_RUN_ID 
-          # echo $GITHUB_RUN_NUMBER
+          echo $GITHUB_RUN_ID 
+          echo $GITHUB_RUN_NUMBER
           # echo $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
           curl \
             -H "Accept: application/vnd.github.v3+json" \
