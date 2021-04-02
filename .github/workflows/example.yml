@@ -14,7 +14,9 @@ jobs:
         run: echo "running tests...."
 
       - name: info
-        run: echo $GITHUB_RUN_ID
+        run: |
+          echo $GITHUB_RUN_ID 
+          echo $GITHUB_RUN_NUMBER
 
       - name: compliance 
         uses: actions/upload-artifact@v1.0.0
