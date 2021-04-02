@@ -13,6 +13,9 @@ jobs:
       - name: run tests
         run: echo "running tests...."
 
+      - name: info
+        run: echo $GITHUB_RUN_ID
+
       - name: compliance 
         uses: actions/upload-artifact@v1.0.0
         with:
