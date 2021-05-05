@@ -29,7 +29,7 @@ jobs:
           #   --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           #   --fail
           #
-          curl -L \
+          curl -vL \
             -H "Accept: application/vnd.github.v3+json" \
             --url "https://api.github.com/repos/ccmpb/experiments/actions/runs/$GITHUB_RUN_ID/logs" \
             --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
