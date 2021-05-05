@@ -230,13 +230,14 @@ def main():
     # print(ts.json())
     # ts.show()
     ng = NextGame(teamid=10)
-    # print(ng.json())
+    print(ng.json())
     # print(ng.gameid())
 
-    game = Game(ng.gameid())
-    print(game.data.keys())
+    # game = Game(ng.gameid())
+
+    # print(game.data.keys())
     
-    print(game.search("home"))
+    # print(game.search("home"))
     # print(game.json())
     # standings = Standings()
     # standings.show()
