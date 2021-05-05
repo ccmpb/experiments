@@ -1,12 +1,14 @@
 name: "examples"
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Dump context
+        uses: crazy-max/ghaction-dump-context@v1
 
+      - uses: actions/checkout@v2
       - name: say hello
         run: echo "hello world"
 
