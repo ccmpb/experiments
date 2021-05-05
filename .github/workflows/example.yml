@@ -29,11 +29,11 @@ jobs:
           #   --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           #   --fail
           #
-          #   curl -L \
-          #     -H "Accept: application/vnd.github.v3+json" \
-          #     --url "https://api.github.com/repos/ccmpb/experiments/actions/runs/710869213/logs" \
-          #     --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          #     --fail > runlog.zip 
+          curl -L \
+            -H "Accept: application/vnd.github.v3+json" \
+            --url "https://api.github.com/repos/ccmpb/experiments/actions/runs/$GITHUB_RUN_ID/logs" \
+            --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+            --fail > runlog.zip 
 
             # curl \
             #   -H "Accept: application/vnd.github.v3+json" \
