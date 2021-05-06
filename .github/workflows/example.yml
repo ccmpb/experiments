@@ -22,6 +22,7 @@ jobs:
           echo "$GITHUB_SHA"
           echo "$GITHUB_REF"
 
+          MERGE_SHA=25537ed9e29af322bba3374e1d9d18bc98380da7
           # echo $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
           # curl \
           #   -H "Accept: application/vnd.github.v3+json" \
@@ -38,7 +39,7 @@ jobs:
             curl \
               -H "Accept: application/vnd.github.v3+json" \
               --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-              --url "https://api.github.com/search/issues?q=repo:ccmpb/experiments+type:pr" \
+              --url "https://api.github.com/search/issues?q=$MERGE_SHA+is:mreged+repo:ccmpb/experiments+type:pr" \
               --fail
 
             # -H "Accept: application/vnd.github.v3+json" \
